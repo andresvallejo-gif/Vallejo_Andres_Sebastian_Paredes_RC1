@@ -12,12 +12,20 @@ void calcularPromediosAsignaturas(float notas[][ASIGNATURAS], float promedios[],
 void mostrarPromediosAsignaturas(float promedios[]);
 void contarAprobadosAsignaturas(float notas[][ASIGNATURAS], int aprobados[], int reprobados[], int estudiantes);
 void mostrarAprobadosAsignaturas(int aprobados[], int reprobados[]);
+void calcularMinMaxEstudiantes(float notas[][ASIGNATURAS], float minimo[], float maximo[], int estudiantes);
+void mostrarMinMaxEstudiantes(float minimo[], float maximo[], int estudiantes);
+void calcularMinMaxAsignaturas(float notas[][ASIGNATURAS], float minimo[], float maximo[], int estudiantes);
+void mostrarMinMaxAsignaturas(float minimo[], float maximo[]);
 
 int main(void) {
     int estudiantes;
     float notas[MAX_EST][ASIGNATURAS];
     float promediosEstudiantes[MAX_EST];
     float promediosAsignaturas[ASIGNATURAS];
+    float minimoEstudiantes[MAX_EST];
+    float maximoEstudiantes[MAX_EST];
+    float minimoAsignaturas[ASIGNATURAS];
+    float maximoAsignaturas[ASIGNATURAS];
     int aprobados[ASIGNATURAS];
     int reprobados[ASIGNATURAS];
     void (*mostrar)(float (*)[ASIGNATURAS], int) = mostrarNotas;
@@ -25,12 +33,16 @@ int main(void) {
     pedirEstudiantes(&estudiantes);
     ingresarNotas(notas, estudiantes);
     calcularPromediosEstudiantes(notas, promediosEstudiantes, estudiantes);
+    calcularMinMaxEstudiantes(notas, minimoEstudiantes, maximoEstudiantes, estudiantes);
     calcularPromediosAsignaturas(notas, promediosAsignaturas, estudiantes);
+    calcularMinMaxAsignaturas(notas, minimoAsignaturas, maximoAsignaturas, estudiantes);
     contarAprobadosAsignaturas(notas, aprobados, reprobados, estudiantes);
 
     mostrar(notas, estudiantes);
     mostrarPromediosEstudiantes(promediosEstudiantes, estudiantes);
+    mostrarMinMaxEstudiantes(minimoEstudiantes, maximoEstudiantes, estudiantes);
     mostrarPromediosAsignaturas(promediosAsignaturas);
+    mostrarMinMaxAsignaturas(minimoAsignaturas, maximoAsignaturas);
     mostrarAprobadosAsignaturas(aprobados, reprobados);
 
     return 0;
@@ -119,5 +131,47 @@ void mostrarAprobadosAsignaturas(int aprobados[], int reprobados[]) {
     printf("\nAprobados y reprobados por asignatura:\n");
     for (int j = 0; j < ASIGNATURAS; j++) {
         printf("Asignatura %d: Aprobados %d, Reprobados %d\n", j + 1, aprobados[j], reprobados[j]);
+    }
+}
+
+void calcularMinMaxEstudiantes(float notas[][ASIGNATURAS], float minimo[], float maximo[], int estudiantes) {
+    for (int i = 0; i < estudiantes; i++) {
+        float min = notas[i][0];
+        float max = notas[i][0];
+        for (int j = 1; j < ASIGNATURAS; j++) {
+            float valor = notas[i][j];
+            if (valor < min) min = valor;
+            if (valor > max) max = valor;
+        }
+        minimo[i] = min;
+        maximo[i] = max;
+    }
+}
+
+void mostrarMinMaxEstudiantes(float minimo[], float maximo[], int estudiantes) {
+    printf("\nMinimo y maximo por estudiante:\n");
+    for (int i = 0; i < estudiantes; i++) {
+        printf("Estudiante %d: Minimo %.2f, Maximo %.2f\n", i + 1, minimo[i], maximo[i]);
+    }
+}
+
+void calcularMinMaxAsignaturas(float notas[][ASIGNATURAS], float minimo[], float maximo[], int estudiantes) {
+    for (int j = 0; j < ASIGNATURAS; j++) {
+        float min = notas[0][j];
+        float max = notas[0][j];
+        for (int i = 1; i < estudiantes; i++) {
+            float valor = notas[i][j];
+            if (valor < min) min = valor;
+            if (valor > max) max = valor;
+        }
+        minimo[j] = min;
+        maximo[j] = max;
+    }
+}
+
+void mostrarMinMaxAsignaturas(float minimo[], float maximo[]) {
+    printf("\nMinimo y maximo por asignatura:\n");
+    for (int j = 0; j < ASIGNATURAS; j++) {
+        printf("Asignatura %d: Minimo %.2f, Maximo %.2f\n", j + 1, minimo[j], maximo[j]);
     }
 }
