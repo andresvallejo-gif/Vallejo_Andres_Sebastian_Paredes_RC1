@@ -2,6 +2,8 @@
 
 #define ASIGNATURAS 3
 #define MAX_EST 50
+#define NOTA_APROBACION 6.0f
+
 void limpiarBuffer(void);
 
 void pedirEstudiantes(int *estudiantes);
@@ -132,7 +134,7 @@ void contarAprobadosAsignaturas(float notas[][ASIGNATURAS], int aprobados[], int
         aprobados[j] = 0;
         reprobados[j] = 0;
         for (int i = 0; i < estudiantes; i++) {
-            if (notas[i][j] >= 6.0f) {
+            if (notas[i][j] >= NOTA_APROBACION) {
                 aprobados[j]++;
             } else {
                 reprobados[j]++;
@@ -142,7 +144,7 @@ void contarAprobadosAsignaturas(float notas[][ASIGNATURAS], int aprobados[], int
 }
 
 void mostrarAprobadosAsignaturas(int aprobados[], int reprobados[]) {
-    printf("\nAprobados y reprobados por asignatura:\n");
+     printf("\nAprobados y reprobados por asignatura (Nota minima %.1f):\n", NOTA_APROBACION);
     for (int j = 0; j < ASIGNATURAS; j++) {
         printf("Asignatura %d: Aprobados %d, Reprobados %d\n", j + 1, aprobados[j], reprobados[j]);
     }
