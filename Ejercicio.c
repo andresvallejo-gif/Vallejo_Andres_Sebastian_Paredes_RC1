@@ -71,7 +71,12 @@ void ingresarNotas(float notas[][ASIGNATURAS], int estudiantes) {
             float *nota = &notas[i][j];
             do {
                 printf("  Nota asignatura %d (0-10): ", j + 1);
-                scanf("%f", nota);
+                 if (scanf("%f", nota) != 1) {
+                    limpiarBuffer();
+                    *nota = -1;
+                }
+
+
             } while (*nota < 0.0f || *nota > 10.0f);
         }
     }
