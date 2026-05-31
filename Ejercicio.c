@@ -2,6 +2,7 @@
 
 #define ASIGNATURAS 3
 #define MAX_EST 50
+void limpiarBuffer(void);
 
 void pedirEstudiantes(int *estudiantes);
 void ingresarNotas(float notas[][ASIGNATURAS], int estudiantes);
@@ -47,11 +48,19 @@ int main(void) {
 
     return 0;
 }
+void limpiarBuffer(void) {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}
+
 
 void pedirEstudiantes(int *estudiantes) {
     do {
         printf("Ingrese numero de estudiantes (1-%d): ", MAX_EST);
-        scanf("%d", estudiantes);
+         if (scanf("%d", estudiantes) != 1) {
+            limpiarBuffer();
+            *estudiantes = 0;
+         }
     } while (*estudiantes < 1 || *estudiantes > MAX_EST);
 }
 
